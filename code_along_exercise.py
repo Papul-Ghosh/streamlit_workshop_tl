@@ -19,6 +19,8 @@ st.write("this is a very long line of code and it becomes kinda unreadable at so
 ##multiline writing/markdown
 
 #TRY IT YOURSELF
+st.write("""""")
+
 #use the appropriate streamlit function and triple-quotes to write across multiple lines and in markdown style
 #create a first order header and a second order header
 
@@ -36,7 +38,7 @@ col_select = st.multiselect("Columns",col_names, default = col_names)
 
 #TRY IT YOURSELF
 #display the dataframe again but with only the columns that the user selects through the Columns selector above.
-
+st.dataframe(diamonds[col_select])
 
 
 ###Plotting
@@ -48,7 +50,9 @@ st.pyplot(fig)
 
 #TRY IT YOURSELF 
 #display the two columns (latitude, longitude) from the housing dataframe as a scatterplot
-
+fig2,ax2 = plt.subplots() #must create a subplot
+ax2 = sns.scatterplot(x = housing["longitude"].unique(), y = housing["latitude"].value_counts())
+st.pyplot(fig2)
 
 
 ##display map data
@@ -68,6 +72,22 @@ def get_user_input():
                               diamonds["carat"].min(),
                               diamonds["carat"].max(),
                               diamonds["carat"].mean())
+    
+    x = st.sidebar.slider("x",
+                              diamonds["x"].min(),
+                              diamonds["x"].max(),
+                              diamonds["x"].mean())
+    
+    y = st.sidebar.slider("y",
+                              diamonds["y"].min(),
+                              diamonds["y"].max(),
+                              diamonds["y"].mean())
+    
+    z = st.sidebar.slider("z",
+                              diamonds["z"].min(),
+                              diamonds["z"].max(),
+                              diamonds["z"].mean())
+    
 #### we need to prompt user input for x,y and z just like we did for carat
 #### for this we want a slider on the sidebar
 #### st.sidebar.slider("NAME", START_VALUE, END_VALUE, DEFAULT_VALUE)
@@ -79,12 +99,13 @@ input_df = get_user_input() #get user input from sidebar
 
 ##TRY IT YOURSELF
 #get predicitions for the user_input
+pred= ml_model.predict(input_df)
 
 st.subheader("Prediction")
 
 ##TRY IT YOURSELF
 #display the predicitions with st.write, bonus karma if you don't just dump a number
-
+st.write("Your Diamond is worth §: ",pred[0])
 
 
 ###advanced uploads (may not be covered in the workshop, tutorial available)
